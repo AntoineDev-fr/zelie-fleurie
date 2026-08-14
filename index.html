@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Zélie Fleurie — Fleuriste engagée à Poitiers</title>
-<meta name="description" content="Zélie Fleurie, fleuriste engagée à Poitiers. Bouquets de saison, créations sur mesure, ateliers floraux, mariages, abonnements et livraison à vélo.">
+<meta name="description" content="Maquette de présentation — Zélie Fleurie, fleuriste engagée à Poitiers. Bouquets de saison, créations sur mesure, ateliers floraux, mariages, abonnements et livraison à vélo.">
 <meta name="robots" content="noindex, nofollow">
 <link rel="icon" href="assets/logo.png" type="image/png">
 
@@ -13,6 +13,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,600;0,9..144,700;0,9..144,800;0,9..144,900;1,9..144,500;1,9..144,600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="css/style.css">
+
+<!-- Ajoute js-enabled avant le premier rendu pour éviter tout flash des animations reveal -->
+<script>document.documentElement.classList.add('js-enabled');</script>
 </head>
 <body>
 
@@ -22,7 +25,7 @@
 <header class="site-header" id="site-header">
   <div class="header-inner container">
     <a class="brand" href="#top" aria-label="Zélie Fleurie — accueil">
-      <img src="assets/logo.png" alt="Zélie Fleurie" width="189" height="177" class="brand-logo">
+      <img src="assets/logo.png" alt="Zélie Fleurie" width="189" height="177" class="brand-logo" decoding="async">
     </a>
 
     <nav class="main-nav" id="main-nav" aria-label="Navigation principale">
@@ -37,7 +40,7 @@
 
     <div class="header-actions">
       <a href="#boutique" class="btn btn-pink header-cta">Commander</a>
-      <button class="icon-btn cart-btn" type="button" aria-label="Panier (aperçu de maquette, non fonctionnel)">
+      <button class="icon-btn cart-btn" type="button" id="cart-toggle" aria-label="Ouvrir l'aperçu du panier" aria-haspopup="dialog" aria-controls="cart-drawer" aria-expanded="false">
         <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><path d="M6 7h15l-1.5 9.5a2 2 0 0 1-2 1.7H8.7a2 2 0 0 1-2-1.7L5 4H2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9.5" cy="20.5" r="1.4" fill="currentColor"/><circle cx="17.5" cy="20.5" r="1.4" fill="currentColor"/></svg>
       </button>
       <button class="icon-btn menu-toggle" type="button" id="menu-toggle" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="mobile-nav">
@@ -47,7 +50,7 @@
   </div>
 
   <!-- Mobile nav panel -->
-  <div class="mobile-nav" id="mobile-nav">
+  <div class="mobile-nav" id="mobile-nav" aria-hidden="true" inert>
     <nav aria-label="Navigation mobile">
       <ul>
         <li><a href="#boutique">Boutique</a></li>
@@ -61,6 +64,8 @@
   </div>
 </header>
 
+<div class="drawer-backdrop" id="drawer-backdrop"></div>
+
 <main id="main">
 
   <span id="top" class="anchor-sentinel"></span>
@@ -68,7 +73,10 @@
   <!-- ============ HERO ============ -->
   <section class="hero" id="hero">
     <div class="hero-media">
-      <img src="assets/hero-bouquet-porte-bleue.jpg" alt="Bouquet généreux de fleurs séchées devant une porte bleue emblématique de Zélie Fleurie" width="457" height="363" class="hero-img">
+      <picture>
+        <source srcset="assets/hero-bouquet-porte-bleue.webp" type="image/webp">
+        <img src="assets/hero-bouquet-porte-bleue.jpg" alt="Bouquet généreux de fleurs séchées devant la porte bleue emblématique de la boutique Zélie Fleurie" width="457" height="363" class="hero-img" fetchpriority="high" decoding="async">
+      </picture>
       <div class="hero-scrim"></div>
     </div>
 
@@ -94,16 +102,18 @@
     <div class="scroll-hint" aria-hidden="true"><span></span></div>
   </section>
 
-  <!-- ============ MANIFESTE ============ -->
+  <!-- ============ UNIVERS ZÉLIE ============ -->
   <section class="manifesto" id="a-propos">
     <div class="container manifesto-grid">
       <div class="manifesto-media reveal" data-reveal>
-        <img src="assets/zelie-portrait.jpg" alt="Zélie, fleuriste, avec un bouquet devant la porte bleue de sa boutique à Poitiers" width="463" height="409" loading="lazy">
-        <img src="assets/badge-fleur-francaise.png" alt="Badge Collectif de la Fleur Française" width="459" height="610" class="manifesto-badge" loading="lazy">
+        <picture>
+          <source srcset="assets/zelie-portrait.webp" type="image/webp">
+          <img src="assets/zelie-portrait.jpg" alt="Zélie, fleuriste, avec un bouquet devant la porte bleue de sa boutique à Poitiers" width="463" height="409" loading="lazy" decoding="async">
+        </picture>
       </div>
 
       <div class="manifesto-text">
-        <p class="eyebrow eyebrow-dark reveal" data-reveal>Notre manifeste</p>
+        <p class="eyebrow eyebrow-dark reveal" data-reveal>L'univers Zélie Fleurie</p>
         <h2 class="reveal" data-reveal>Des fleurs locales, de saison et pleines de vie.</h2>
         <p class="lead reveal" data-reveal>Chez Zélie Fleurie, chaque composition est imaginée au rythme des saisons et des fleurs disponibles. Des bouquets libres, colorés et singuliers, confectionnés à Poitiers.</p>
 
@@ -123,15 +133,18 @@
       <div class="section-head reveal" data-reveal>
         <p class="eyebrow eyebrow-dark">La boutique</p>
         <h2>Les bouquets du moment</h2>
-        <p class="lead">Des compositions uniques réalisées au fil des arrivages et des saisons.</p>
+        <p class="lead">Des compositions uniques réalisées au fil des arrivages et des saisons. Exemples de présentation.</p>
       </div>
 
       <div class="product-grid">
         <article class="product-card reveal" data-reveal>
-          <a href="#" class="product-media">
-            <img src="assets/duo-bouquets-rue.jpg" alt="Bouquet de tulipes rouges de saison" width="459" height="463" loading="lazy">
+          <button type="button" class="product-media" data-demo-action data-demo-message="La fiche produit détaillée sera disponible dans la boutique en ligne.">
+            <picture>
+              <source srcset="assets/duo-bouquets-rue.webp" type="image/webp">
+              <img src="assets/duo-bouquets-rue.jpg" alt="Bouquets colorés de saison portés en ville" width="459" height="463" loading="lazy" decoding="async">
+            </picture>
             <span class="product-cta">Voir le bouquet</span>
-          </a>
+          </button>
           <div class="product-info">
             <h3>Bouquet de saison</h3>
             <p>À partir de 35&nbsp;€</p>
@@ -139,10 +152,13 @@
         </article>
 
         <article class="product-card reveal" data-reveal>
-          <a href="#" class="product-media">
-            <img src="assets/wedding-bouquet-detail.jpg" alt="Bouquet généreux aux tons roses et violets" width="463" height="499" loading="lazy">
+          <button type="button" class="product-media" data-demo-action data-demo-message="La fiche produit détaillée sera disponible dans la boutique en ligne.">
+            <picture>
+              <source srcset="assets/wedding-bouquet-detail.webp" type="image/webp">
+              <img src="assets/wedding-bouquet-detail.jpg" alt="Bouquet généreux aux tons roses et violets" width="463" height="499" loading="lazy" decoding="async">
+            </picture>
             <span class="product-cta">Voir le bouquet</span>
-          </a>
+          </button>
           <div class="product-info">
             <h3>Bouquet généreux</h3>
             <p>À partir de 50&nbsp;€</p>
@@ -150,10 +166,13 @@
         </article>
 
         <article class="product-card reveal" data-reveal>
-          <a href="#" class="product-media">
-            <img src="assets/shop-interior.jpg" alt="Composition libre et colorée réalisée en boutique" width="457" height="550" loading="lazy">
+          <button type="button" class="product-media" data-demo-action data-demo-message="La fiche produit détaillée sera disponible dans la boutique en ligne.">
+            <picture>
+              <source srcset="assets/shop-interior.webp" type="image/webp">
+              <img src="assets/shop-interior.jpg" alt="Composition libre et colorée réalisée en boutique" width="457" height="550" loading="lazy" decoding="async">
+            </picture>
             <span class="product-cta">Voir le bouquet</span>
-          </a>
+          </button>
           <div class="product-info">
             <h3>Composition libre</h3>
             <p>À partir de 45&nbsp;€</p>
@@ -162,7 +181,7 @@
       </div>
 
       <div class="section-cta reveal" data-reveal>
-        <a href="#" class="btn btn-outline-dark">Découvrir toute la boutique</a>
+        <button type="button" class="btn btn-outline-dark" data-demo-action data-demo-message="La boutique complète sera disponible après le lancement du site.">Découvrir toute la boutique</button>
       </div>
     </div>
   </section>
@@ -171,7 +190,10 @@
   <section class="delivery">
     <div class="container delivery-grid">
       <div class="delivery-media reveal" data-reveal>
-        <img src="assets/duo-bouquets-rue.jpg" alt="Livraison de bouquets dans les rues de Poitiers" width="459" height="463" loading="lazy">
+        <picture>
+          <source srcset="assets/duo-bouquets-rue.webp" type="image/webp">
+          <img src="assets/duo-bouquets-rue.jpg" alt="Deux personnes portant des bouquets colorés dans les rues de Poitiers" width="459" height="463" loading="lazy" decoding="async">
+        </picture>
       </div>
 
       <div class="delivery-text">
@@ -181,11 +203,11 @@
 
         <ul class="check-list reveal" data-reveal>
           <li>Poitiers et alentours</li>
-          <li>Livraison sur créneau</li>
+          <li>Livraison locale à vélo</li>
           <li>Retrait en boutique également disponible</li>
         </ul>
 
-        <a href="#" class="btn btn-outline-light reveal" data-reveal>Voir les options de livraison</a>
+        <button type="button" class="btn btn-outline-light reveal" data-reveal data-demo-action data-demo-message="Les options de livraison seront disponibles sur le site final.">Voir les options de livraison</button>
       </div>
     </div>
   </section>
@@ -196,33 +218,39 @@
       <div class="section-head reveal" data-reveal>
         <p class="eyebrow eyebrow-dark">Ateliers</p>
         <h2>Mettre les mains dans les fleurs.</h2>
-        <p class="lead">Des ateliers conviviaux pour apprendre, créer et repartir avec sa propre composition.</p>
+        <p class="lead">Des ateliers conviviaux pour apprendre, créer et repartir avec sa propre composition. Aperçu du fonctionnement à venir.</p>
       </div>
 
       <div class="workshop-grid">
         <article class="workshop-card reveal" data-reveal>
           <div class="workshop-media">
-            <img src="assets/craft-detail.jpg" alt="Détail artisanal d'une composition florale réalisée à la main" width="456" height="429" loading="lazy">
+            <picture>
+              <source srcset="assets/craft-detail.webp" type="image/webp">
+              <img src="assets/craft-detail.jpg" alt="Détail d'une composition florale réalisée à la main, en atelier" width="456" height="429" loading="lazy" decoding="async">
+            </picture>
             <span class="badge badge-pink">4 places restantes</span>
           </div>
           <div class="workshop-info">
-            <h3>Bouquet de saison</h3>
+            <h3>Atelier bouquet de saison</h3>
             <p class="workshop-meta">Samedi 12 septembre · 14h00</p>
             <p class="workshop-price">45&nbsp;€ / personne</p>
-            <a href="#" class="btn btn-pink">Réserver</a>
+            <button type="button" class="btn btn-pink" data-demo-action data-demo-message="La réservation et le paiement en ligne seront disponibles sur le site final.">Réserver</button>
           </div>
         </article>
 
         <article class="workshop-card reveal" data-reveal>
           <div class="workshop-media">
-            <img src="assets/shop-window.jpg" alt="Vitrine fleurie de la boutique Zélie Fleurie" width="463" height="562" loading="lazy">
+            <picture>
+              <source srcset="assets/zelie-portrait.webp" type="image/webp">
+              <img src="assets/zelie-portrait.jpg" alt="Zélie avec un bouquet, animatrice des ateliers floraux" width="463" height="409" loading="lazy" decoding="async">
+            </picture>
             <span class="badge badge-pink">6 places restantes</span>
           </div>
           <div class="workshop-info">
-            <h3>Composition en fleurs séchées</h3>
+            <h3>Atelier fleurs séchées</h3>
             <p class="workshop-meta">Samedi 26 septembre · 10h30</p>
             <p class="workshop-price">49&nbsp;€ / personne</p>
-            <a href="#" class="btn btn-pink">Réserver</a>
+            <button type="button" class="btn btn-pink" data-demo-action data-demo-message="La réservation et le paiement en ligne seront disponibles sur le site final.">Réserver</button>
           </div>
         </article>
       </div>
@@ -232,7 +260,10 @@
   <!-- ============ MARIAGES & ÉVÉNEMENTS ============ -->
   <section class="wedding" id="mariages">
     <div class="wedding-bg">
-      <img src="assets/wedding-hall.jpg" alt="Décoration florale suspendue au-dessus d'une salle de réception de mariage" width="456" height="528" loading="lazy">
+      <picture>
+        <source srcset="assets/wedding-hall.webp" type="image/webp">
+        <img src="assets/wedding-hall.jpg" alt="Décoration florale suspendue au-dessus d'une salle de réception de mariage" width="456" height="528" loading="lazy" decoding="async">
+      </picture>
       <div class="wedding-scrim"></div>
     </div>
 
@@ -248,13 +279,19 @@
           <li>Professionnels</li>
         </ul>
 
-        <a href="#" class="btn btn-pink">Demander un devis</a>
+        <button type="button" class="btn btn-pink" data-demo-action data-demo-message="Le formulaire de devis sera disponible dans la version finale.">Demander un devis</button>
       </div>
     </div>
 
     <div class="wedding-thumbs">
-      <img src="assets/wedding-table-night.jpg" alt="Table de mariage dressée en soirée, décorée de fleurs et bougies" width="466" height="586" loading="lazy" class="reveal" data-reveal>
-      <img src="assets/wedding-car.jpg" alt="Fleurs de mariage installées sur le capot d'un véhicule" width="462" height="556" loading="lazy" class="reveal" data-reveal>
+      <picture>
+        <source srcset="assets/wedding-table-night.webp" type="image/webp">
+        <img src="assets/wedding-table-night.jpg" alt="Table de mariage dressée en soirée, décorée de fleurs et bougies" width="466" height="586" loading="lazy" decoding="async" class="reveal" data-reveal>
+      </picture>
+      <picture>
+        <source srcset="assets/wedding-car.webp" type="image/webp">
+        <img src="assets/wedding-car.jpg" alt="Fleurs de mariage installées sur le capot d'un véhicule" width="462" height="556" loading="lazy" decoding="async" class="reveal" data-reveal>
+      </picture>
     </div>
   </section>
 
@@ -269,20 +306,26 @@
       <div class="subscription-grid">
         <article class="subscription-panel reveal" data-reveal>
           <div class="subscription-media">
-            <img src="assets/shop-interior.jpg" alt="Fleurs fraîches variées présentées en boutique" width="457" height="550" loading="lazy">
+            <picture>
+              <source srcset="assets/shop-window.webp" type="image/webp">
+              <img src="assets/shop-window.jpg" alt="Vitrine fleurie de la boutique Zélie Fleurie" width="463" height="562" loading="lazy" decoding="async">
+            </picture>
           </div>
           <h3>Un bouquet rien que pour vous</h3>
           <p>Recevez régulièrement une création florale imaginée au fil des saisons.</p>
-          <a href="#" class="btn btn-outline-dark">Découvrir l'abonnement</a>
+          <button type="button" class="btn btn-outline-dark" data-demo-action data-demo-message="Les abonnements seront disponibles dans la version finale du site.">Découvrir l'abonnement</button>
         </article>
 
         <article class="subscription-panel reveal" data-reveal>
           <div class="subscription-media">
-            <img src="assets/shop-window.jpg" alt="Vitrine florale habillée pour un lieu professionnel" width="463" height="562" loading="lazy">
+            <picture>
+              <source srcset="assets/shop-interior.webp" type="image/webp">
+              <img src="assets/shop-interior.jpg" alt="Fleurs fraîches variées présentées en boutique" width="457" height="550" loading="lazy" decoding="async">
+            </picture>
           </div>
           <h3>Des fleurs pour vos espaces</h3>
           <p>Boutiques, restaurants, bureaux ou lieux d'accueil&nbsp;: des compositions renouvelées régulièrement selon votre univers.</p>
-          <a href="#" class="btn btn-outline-dark">Découvrir l'offre pro</a>
+          <button type="button" class="btn btn-outline-dark" data-demo-action data-demo-message="Les abonnements seront disponibles dans la version finale du site.">Découvrir l'offre pro</button>
         </article>
       </div>
     </div>
@@ -294,17 +337,52 @@
       <div class="section-head reveal" data-reveal>
         <p class="eyebrow eyebrow-dark">Instagram</p>
         <h2>Dans l'univers de Zélie</h2>
-        <a href="#" class="instagram-link">@zeliefleurie · Suivre sur Instagram</a>
+        <button type="button" class="instagram-link" data-demo-action data-demo-message="Le lien Instagram sera ajouté avec l'URL officielle de Zélie.">@zeliefleurie · Suivre sur Instagram</button>
       </div>
 
       <div class="gallery-grid">
-        <div class="gallery-item span-2 tall reveal" data-reveal><img src="assets/shop-window.jpg" alt="Vitrine de la boutique Zélie Fleurie décorée de fleurs en papier" width="463" height="562" loading="lazy"></div>
-        <div class="gallery-item reveal" data-reveal><img src="assets/craft-detail.jpg" alt="Petites fleurs en céramique faites main" width="456" height="429" loading="lazy"></div>
-        <div class="gallery-item reveal" data-reveal><img src="assets/zelie-portrait.jpg" alt="Portrait de Zélie avec un bouquet" width="463" height="409" loading="lazy"></div>
-        <div class="gallery-item tall reveal" data-reveal><img src="assets/wedding-bouquet-detail.jpg" alt="Bouquet de mariée aux tons roses et violets" width="463" height="499" loading="lazy"></div>
-        <div class="gallery-item span-2 reveal" data-reveal><img src="assets/shop-interior.jpg" alt="Intérieur fleuri de la boutique" width="457" height="550" loading="lazy"></div>
-        <div class="gallery-item reveal" data-reveal><img src="assets/wedding-car.jpg" alt="Fleurs de mariage sur un véhicule" width="462" height="556" loading="lazy"></div>
-        <div class="gallery-item tall reveal" data-reveal><img src="assets/duo-bouquets-rue.jpg" alt="Deux personnes portant des bouquets colorés dans la rue" width="459" height="463" loading="lazy"></div>
+        <div class="gallery-item span-2 tall reveal" data-reveal>
+          <picture>
+            <source srcset="assets/shop-window.webp" type="image/webp">
+            <img src="assets/shop-window.jpg" alt="Vitrine de la boutique Zélie Fleurie décorée de fleurs en papier" width="463" height="562" loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <div class="gallery-item reveal" data-reveal>
+          <picture>
+            <source srcset="assets/craft-detail.webp" type="image/webp">
+            <img src="assets/craft-detail.jpg" alt="Petites fleurs en céramique faites main" width="456" height="429" loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <div class="gallery-item reveal" data-reveal>
+          <picture>
+            <source srcset="assets/zelie-portrait.webp" type="image/webp">
+            <img src="assets/zelie-portrait.jpg" alt="Portrait de Zélie avec un bouquet" width="463" height="409" loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <div class="gallery-item tall reveal" data-reveal>
+          <picture>
+            <source srcset="assets/wedding-bouquet-detail.webp" type="image/webp">
+            <img src="assets/wedding-bouquet-detail.jpg" alt="Bouquet de mariée aux tons roses et violets" width="463" height="499" loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <div class="gallery-item span-2 reveal" data-reveal>
+          <picture>
+            <source srcset="assets/shop-interior.webp" type="image/webp">
+            <img src="assets/shop-interior.jpg" alt="Intérieur fleuri de la boutique" width="457" height="550" loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <div class="gallery-item reveal" data-reveal>
+          <picture>
+            <source srcset="assets/wedding-car.webp" type="image/webp">
+            <img src="assets/wedding-car.jpg" alt="Fleurs de mariage sur un véhicule" width="462" height="556" loading="lazy" decoding="async">
+          </picture>
+        </div>
+        <div class="gallery-item tall reveal" data-reveal>
+          <picture>
+            <source srcset="assets/duo-bouquets-rue.webp" type="image/webp">
+            <img src="assets/duo-bouquets-rue.jpg" alt="Deux personnes portant des bouquets colorés dans la rue" width="459" height="463" loading="lazy" decoding="async">
+          </picture>
+        </div>
       </div>
     </div>
   </section>
@@ -319,7 +397,7 @@
       <h2 class="reveal" data-reveal>Des fleurs pour quelle occasion&nbsp;?</h2>
       <div class="final-cta-actions reveal" data-reveal>
         <a href="#boutique" class="btn btn-cream">Commander un bouquet</a>
-        <a href="#" class="btn btn-outline-light">Parler de mon projet</a>
+        <button type="button" class="btn btn-outline-light" data-demo-action data-demo-message="Le formulaire de contact sera disponible dans la version finale.">Parler de mon projet</button>
       </div>
     </div>
   </section>
@@ -330,7 +408,7 @@
 <footer class="site-footer">
   <div class="container footer-grid">
     <div class="footer-brand">
-      <img src="assets/logo.png" alt="Zélie Fleurie" width="189" height="177" class="footer-logo">
+      <img src="assets/logo.png" alt="Zélie Fleurie" width="189" height="177" class="footer-logo" loading="lazy" decoding="async">
       <address>
         27 place Charles VII<br>
         Poitiers
@@ -344,17 +422,38 @@
         <li><a href="#abonnements">Abonnements</a></li>
         <li><a href="#mariages">Mariages &amp; événements</a></li>
         <li><a href="#a-propos">À propos</a></li>
-        <li><a href="#">Contact</a></li>
-        <li><a href="#">Instagram</a></li>
+        <li><button type="button" data-demo-action data-demo-message="Le formulaire de contact sera disponible dans la version finale.">Contact</button></li>
+        <li><button type="button" data-demo-action data-demo-message="Le lien Instagram sera ajouté avec l'URL officielle de Zélie.">Instagram</button></li>
       </ul>
     </nav>
   </div>
 
   <div class="footer-bottom container">
-    <p>Maquette de présentation — Zélie Fleurie</p>
+    <div class="footer-bottom-lines">
+      <p>Maquette de présentation — Zélie Fleurie</p>
+      <p class="footer-note">Contenus, tarifs et disponibilités présentés à titre d'exemple.</p>
+    </div>
     <p class="footer-credit">Conception &amp; développement — Antoine Développement</p>
   </div>
 </footer>
+
+<!-- Panier de démonstration -->
+<aside class="cart-drawer" id="cart-drawer" role="dialog" aria-modal="true" aria-labelledby="cart-drawer-title" aria-hidden="true" inert>
+  <div class="cart-drawer-head">
+    <h2 id="cart-drawer-title">Votre panier</h2>
+    <button type="button" class="icon-btn" id="cart-drawer-close" aria-label="Fermer le panier">
+      <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M5 5l14 14M19 5L5 19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+  <div class="cart-drawer-body">
+    <p>Votre panier est vide pour le moment.</p>
+    <p>La boutique complète et le paiement en ligne seront disponibles dans la version finale du site.</p>
+  </div>
+  <button type="button" class="btn btn-outline-dark cart-drawer-dismiss">Fermer</button>
+</aside>
+
+<!-- Toasts de démonstration -->
+<div class="toast-region" id="toast-region" role="status" aria-live="polite" aria-atomic="true"></div>
 
 <!-- Reusable inline SVG shapes -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">

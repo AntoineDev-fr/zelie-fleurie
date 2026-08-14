@@ -22,6 +22,7 @@
   --container-w: 1240px;
   --radius-sm: 6px;
   --radius-md: 14px;
+  --header-offset: 92px;
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --dur: 0.7s;
@@ -32,7 +33,14 @@
 *::before,
 *::after { box-sizing: border-box; }
 
-html { scroll-behavior: smooth; }
+html {
+  scroll-behavior: smooth;
+  /* Off-canvas panels (mobile nav, cart drawer) use position:fixed +
+     transform to sit just off the right edge when closed; their containing
+     block is the viewport, so only the root's own overflow-x can clip them
+     (body's overflow-x alone is not enough to stop the phantom h-scroll). */
+  overflow-x: hidden;
+}
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
@@ -55,11 +63,30 @@ body {
 
 img { max-width: 100%; display: block; }
 
+/* <picture> is a layout no-op: every existing image rule keeps targeting
+   the <img> itself, whether or not it's wrapped in a <picture>/<source>. */
+picture { display: contents; }
+
 a { color: inherit; text-decoration: none; }
 
 ul { list-style: none; margin: 0; padding: 0; }
 
-button { font: inherit; background: none; border: none; cursor: pointer; color: inherit; }
+button {
+  font: inherit;
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 0;
+  text-align: inherit;
+  cursor: pointer;
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2.5px solid var(--color-pink);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
 
 h1, h2, h3 {
   font-family: var(--font-display);
@@ -91,6 +118,9 @@ p { margin: 0 0 1em; }
 .skip-link:focus { left: 0; }
 
 .anchor-sentinel { display: block; height: 0; }
+
+/* Keep anchored sections from hiding under the fixed header when jumped to */
+section[id] { scroll-margin-top: var(--header-offset); }
 
 /* ---------- Typography helpers ---------- */
 .eyebrow {
@@ -156,16 +186,19 @@ h3 { font-size: clamp(1.2rem, 3vw, 1.5rem); }
 }
 .btn-outline-dark:hover { background: var(--color-green); color: var(--color-cream); }
 
-/* ---------- Reveal on scroll ---------- */
-.reveal {
+/* ---------- Reveal on scroll (progressive enhancement) ----------
+   Without JS (no .js-enabled on <html>), content stays fully visible.
+   With JS, main.js tags <html> before first paint and the observer
+   in main.js adds .is-visible as each element enters the viewport. */
+.js-enabled .reveal {
   opacity: 0;
   transform: translateY(28px);
   transition: opacity var(--dur) var(--ease), transform var(--dur) var(--ease);
 }
-.reveal.is-visible { opacity: 1; transform: translateY(0); }
+.js-enabled .reveal.is-visible { opacity: 1; transform: translateY(0); }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal { opacity: 1; transform: none; transition: none; }
+  .js-enabled .reveal { opacity: 1; transform: none; transition: none; }
 }
 
 /* ==========================================================================
@@ -199,7 +232,7 @@ h3 { font-size: clamp(1.2rem, 3vw, 1.5rem); }
 .brand-logo {
   height: 52px;
   width: auto;
-  border-radius: 50%;
+  object-fit: contain;
   transition: height 0.4s ease;
 }
 .site-header.is-scrolled .brand-logo { height: 42px; }
@@ -234,8 +267,8 @@ h3 { font-size: clamp(1.2rem, 3vw, 1.5rem); }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   color: var(--color-cream);
   transition: color 0.3s ease;
 }
@@ -432,26 +465,15 @@ h3 { font-size: clamp(1.2rem, 3vw, 1.5rem); }
 }
 
 .manifesto-media {
-  position: relative;
   width: 100%;
   max-width: 420px;
   margin-inline: auto;
 }
-.manifesto-media img:first-child {
+.manifesto-media img {
   width: 100%;
   aspect-ratio: 4 / 5;
   object-fit: cover;
   border-radius: var(--radius-md);
-}
-.manifesto-badge {
-  position: absolute;
-  bottom: -1.5rem;
-  right: -1rem;
-  width: 96px;
-  height: auto;
-  border-radius: 50%;
-  box-shadow: 0 10px 30px -10px rgba(34, 48, 31, 0.4);
-  transform: rotate(8deg);
 }
 
 .manifesto-text { max-width: 46ch; margin-inline: auto; }
@@ -686,7 +708,7 @@ h3 { font-size: clamp(1.2rem, 3vw, 1.5rem); }
     border-radius: var(--radius-md);
     box-shadow: 0 20px 40px -20px rgba(0, 0, 0, 0.5);
   }
-  .wedding-thumbs img:nth-child(2) { margin-top: 2.5rem; }
+  .wedding-thumbs picture:nth-child(2) img { margin-top: 2.5rem; }
 }
 
 /* ==========================================================================
@@ -787,23 +809,33 @@ h3 { font-size: clamp(1.2rem, 3vw, 1.5rem); }
   border-bottom: 1px solid rgba(248, 243, 233, 0.15);
 }
 
-.footer-logo { height: 56px; width: auto; border-radius: 50%; margin-bottom: 1rem; }
+.footer-logo { height: 56px; width: auto; object-fit: contain; margin-bottom: 1rem; }
 
 .footer-brand address { font-style: normal; line-height: 1.6; opacity: 0.85; }
 
 .footer-nav ul { display: flex; flex-direction: column; gap: 0.7rem; }
-.footer-nav a { opacity: 0.85; transition: opacity 0.3s ease; }
-.footer-nav a:hover { opacity: 1; }
+.footer-nav a,
+.footer-nav button {
+  display: inline-block;
+  font-size: 1rem;
+  opacity: 0.85;
+  transition: opacity 0.3s ease;
+}
+.footer-nav a:hover,
+.footer-nav button:hover { opacity: 1; }
 
 .footer-bottom {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  gap: 0.5rem;
+  align-items: flex-end;
+  gap: 0.5rem 1.5rem;
   padding-block: 1.5rem;
   font-size: 0.8rem;
   opacity: 0.6;
 }
+.footer-bottom-lines p { margin: 0; }
+.footer-bottom-lines .footer-note { margin-top: 0.2rem; }
 .footer-credit { opacity: 0.8; }
 
 @media (min-width: 700px) {
@@ -816,4 +848,111 @@ h3 { font-size: clamp(1.2rem, 3vw, 1.5rem); }
    ========================================================================== */
 @media (min-width: 1440px) {
   .container { padding-inline: 2rem; }
+}
+
+/* ==========================================================================
+   DRAWER BACKDROP (shared by mobile nav + cart drawer)
+   ========================================================================== */
+.drawer-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 50, 38, 0.45);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.35s ease;
+  z-index: 80;
+}
+.drawer-backdrop.is-visible { opacity: 1; pointer-events: auto; }
+
+/* ==========================================================================
+   CART DRAWER (démonstration — non fonctionnel)
+   ========================================================================== */
+.cart-drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: min(380px, 100%);
+  background: var(--color-cream);
+  color: var(--color-ink);
+  z-index: 110;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  transform: translateX(100%);
+  transition: transform 0.45s var(--ease);
+  box-shadow: -20px 0 50px -20px rgba(28, 50, 38, 0.4);
+}
+.cart-drawer.is-open { transform: translateX(0); }
+
+.cart-drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0.25rem;
+}
+.cart-drawer-head h2 {
+  font-size: 1.4rem;
+  margin: 0;
+}
+.cart-drawer-head .icon-btn { color: var(--color-green); width: 40px; height: 40px; }
+
+.cart-drawer-body p { color: var(--color-ink-soft); }
+.cart-drawer-body p:first-child { color: var(--color-green); font-weight: 700; }
+
+.cart-drawer-dismiss { margin-top: auto; align-self: flex-start; }
+
+/* ==========================================================================
+   TOASTS DE DÉMONSTRATION
+   ========================================================================== */
+.toast-region {
+  position: fixed;
+  left: 50%;
+  bottom: 1.25rem;
+  transform: translateX(-50%);
+  z-index: 130;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.6rem;
+  width: min(420px, calc(100% - 2rem));
+  pointer-events: none;
+}
+
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  width: 100%;
+  background: var(--color-green-deep);
+  color: var(--color-cream);
+  padding: 0.9rem 1.1rem;
+  border-radius: var(--radius-md);
+  box-shadow: 0 14px 36px -12px rgba(0, 0, 0, 0.45);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.4;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.35s var(--ease), transform 0.35s var(--ease);
+}
+.toast.is-visible { opacity: 1; transform: translateY(0); }
+
+.toast::before {
+  content: "";
+  flex-shrink: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--color-pink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toast { transition: opacity 0.2s linear; transform: none; }
+}
+
+@media (min-width: 700px) {
+  .toast-region { left: auto; right: 1.5rem; bottom: 1.5rem; transform: none; align-items: flex-end; }
+  .toast { width: auto; max-width: 380px; }
 }
